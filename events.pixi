@@ -1,0 +1,50 @@
+
+MOUSE_UP = -2
+MOUSE_NO_STAIR = -1
+mouse_state = MOUSE_UP
+
+fn events() {
+	while get_event() { 
+        /*if mouse_state == MOUSE_NO_STAIR {
+            new_x = EVT[EVT_X]
+            new_y = EVT[EVT_Y]
+            line(prev_x, prev_y, new_x, new_y)
+            //add_line(prev_x, prev_y, new_x, new_y)
+            prev_x = new_x
+            prev_y = new_y
+        }*/
+
+        if EVT[EVT_TYPE] == EVT_MOUSEBUTTONDOWN {
+            prev_x = EVT[EVT_X]
+            prev_y = EVT[EVT_Y]
+            mouse_state = stair_under(prev_x, prev_y)
+        }
+
+        if EVT[EVT_TYPE] == EVT_MOUSEBUTTONUP {
+            mouse_state = MOUSE_UP
+        }
+
+        if EVT[EVT_TYPE] == EVT_MOUSEMOVE && mouse_state >= 0 {
+            new_x = EVT[EVT_X]
+            new_y = EVT[EVT_Y]
+            move_vector_x = new_x - prev_x
+            move_vector_y = new_y - prev_y
+            mouse_state.x = mouse_state.x + move_vector_x
+            mouse_state.y = mouse_state.y + move_vector_y
+            prev_x = new_x
+            prev_y = new_y
+        }
+
+        if EVT[ EVT_TYPE ] == EVT_QUIT { halt } 
+
+        if EVT[ EVT_TYPE ] == EVT_SCREENRESIZE 
+        {
+            $oldScreen = new(get_xsize(screen), get_ysize(screen), PIXEL)
+            copy($oldScreen, screen)
+            clean(screen)
+            resize(screen, WINDOW_XSIZE, WINDOW_YSIZE)
+            copy(screen, $oldScreen)
+            remove($oldScreen)
+        }
+	}
+}

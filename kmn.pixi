@@ -1,0 +1,83 @@
+// Log number
+fn logn($num) {
+    $s = new()
+    num2str($s, $num)
+    strcat($s, "\n")
+    logf($s)
+    remove($s)
+}
+
+fn logs($str) {
+    strcat($str, "\n")
+    logf($str)
+}
+
+// Print log
+fn print_log($x, $y, $color, $align, $max_size) {
+    $log = get_log()
+    print($log, $x, $y, $color, $align, $max_size)
+    remove($log)
+}
+
+/*
+// Layer system
+layers = new(1, 1, INT8)
+layers[0] = new(get_xsize(screen), get_ysize(screen), PIXEL)
+copy(layers[0], screen)
+
+fn addLayer($l) {
+    if get_size(layers) <= $l {
+        resize(layers, $l+1)
+        for ($n = get_size(layers); $n <= $l; $n + 1) {
+            layers[$n] = new(get_xsize(screen), get_ysize(screen), PIXEL)
+        }
+    }
+    ret(layers[$l])
+}
+
+fn drawLayers() {
+    for ($x = 0; $x < get_xsize(screen); $x + 1) {
+        for ($y = 0; $y < get_ysize(screen); $y + 1) {
+            for ($j = get_size(layers) - 1; $j >= 0; $j - 1) {
+                $layer = layers[$j]
+                if ($layer[$x, $y] == scolor[COLOR_BACKGROUND]) {
+                    continue
+                }
+                else {
+                    screen[$x, $y] = $layer[$x, $y]
+                    break
+                }
+            }
+        }
+    }
+}
+
+fn boxL($l, $x, $y, $xsize, $ysize, $color) {
+    clean(screen)
+    $layer = addLayer($l)
+    copy(screen, $layer)
+    box($x, $y, $xsize, $ysize, $color)
+    copy($layer, screen)
+    clean(screen)
+}
+
+fn fboxL($l, $x, $y, $xsize, $ysize, $color) {
+    clean(screen)
+    $layer = addLayer($l)
+    copy(screen, $layer)
+    fbox($x, $y, $xsize, $ysize, $color)
+    copy($layer, screen)
+    clean(screen)
+}
+
+fn lineL($l, $x1, $y1, $x2, $y2, $color) {
+    clean(screen)
+    $layer = addLayer($l)
+    copy(screen, $layer)
+    line($x1, $y1, $x2, $y2, $color)
+    copy($layer, screen)
+    clean(screen)
+}
+*/
+
+

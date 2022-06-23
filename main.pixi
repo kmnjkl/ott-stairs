@@ -1,0 +1,73 @@
+screen = get_screen()
+resize(screen, WINDOW_XSIZE, WINDOW_YSIZE)
+//resize(screen, 1000, 700)
+
+/*
+ORANGE - оранжевый;
+BLACK - черный;
+WHITE - белый;
+YELLOW - желтый;
+RED - красный;
+GREEN - зеленый;
+BLUE - синий.
+*/
+/*
+LAYER_FBOX = 0
+LAYER_BOX = 1
+LAYER_DRAW = 2
+LAYER_INTERFACE = 3
+*/
+
+COLOR_BORDER = 10
+COLOR_TEXT = 11
+COLOR_DRAW = 12
+COLOR_BACKGROUND = 13
+
+scolor = new(20, 1, PIXEL)
+scolor[0] = ORANGE
+scolor[1] = WHITE
+scolor[2] = YELLOW
+scolor[3] = RED
+scolor[4] = GREEN
+scolor[5] = BLUE
+scolor[6] = ORANGE
+scolor[7] = WHITE
+scolor[8] = YELLOW
+scolor[9] = RED
+scolor[COLOR_BORDER] = #704000
+scolor[COLOR_TEXT] = #c7ffc7
+scolor[COLOR_DRAW] = WHITE
+scolor[COLOR_BACKGROUND] = BLACK
+
+sconf = new()
+sconf.scale = 1
+
+
+include "assets.pixi"
+include "events.pixi"
+include "kmn.pixi"
+
+//logn(TOP)		1	0001
+//logn(BOTTOM)	2	0010
+//logn(LEFT)	4	0100
+//logn(RIGHT)	8	1000
+
+add_stair(10, 10, 5, (RIGHT|TOP))
+//drawAllStairs()
+
+logs("start")
+
+while 1
+{
+	clear(screen)
+	logs("tick")
+
+	//drawLayers()
+	drawAllStairs()
+	
+	//print_log(get_xsize(screen) div 2, get_ysize(screen) div 2, scolor[COLOR_TEXT], BOTTOM|RIGHT, 100)
+
+	frame()
+	events()
+}
+

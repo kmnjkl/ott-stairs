@@ -1,0 +1,124 @@
+
+stairs = new(1, 1, INT8)
+stairs[0] = new()
+stairs[0].x = -250
+stairs[0].y = -250
+stairs[0].size = 10
+stairs[0].align = LEFT|BOTTOM
+
+lines = new(1, 1, INT8)
+lines[0] = new()
+lines[0].x1 = 0
+lines[0].y1 = 0
+lines[0].x2 = 1
+lines[0].y2 = 1
+
+
+/*
+x,y->.__
+	 |  |__
+	 |     |__
+	 |________|
+*/
+BOX_SIZE = 30
+fn draw_stair($x, $y, $size, $align)
+{
+	$r = 0
+	$t = 0
+	if ($align & RIGHT) > 0 {
+		$r = 1
+	}
+	if ($align & TOP) > 0 {
+		$t = 1
+	}
+	for($row = 0; $row < $size; $row + 1)
+	{
+		if $t
+		{
+			$col_size = $size - $row
+		}
+		else
+		{
+			$col_size = $row+1
+		}
+		for($col = 0; $col < $col_size; $col + 1) 
+		{
+			$x_shift = 0
+			if $r {
+				if $t {
+					$x_shift = $row * BOX_SIZE * sconf.scale
+				}
+				else {
+					$x_shift = ($size - $row - 1) * BOX_SIZE * sconf.scale
+				}
+			}
+			fbox($x + $col*BOX_SIZE*sconf.scale + $x_shift,
+				$y + $row*BOX_SIZE*sconf.scale, 
+				BOX_SIZE*sconf.scale, BOX_SIZE*sconf.scale, 
+				scolor[$row%10])
+			box($x + $col*BOX_SIZE*sconf.scale + $x_shift,
+				$y + $row*BOX_SIZE*sconf.scale, 
+				BOX_SIZE*sconf.scale, BOX_SIZE*sconf.scale, 
+				scolor[COLOR_BORDER])
+		}
+	}
+}
+
+fn draw_stair_cont($pixi) {
+	draw_stair($pixi.x, $pixi.y, $pixi.size, $pixi.align)
+}
+
+fn stair_under($x, $y) {
+	for($i = get_size(stairs) - 1; $i >= 0; $i - 1) {
+		$st = stairs[$i]
+		$x_shift = 0
+		$y_shift = 0
+
+		if $st.align & RIGHT {
+			$x_shift = ($st.size - 1) * BOX_SIZE * sconf.scale
+		}
+		if $st.align & BOTTOM {
+			$y_shift = ($st.size -1) * BOX_SIZE * sconf.scale
+		}
+
+		if ($x > $st.x + $x_shift) && ($x < $st.x + BOX_SIZE * sconf.scale + $x_shift) {
+			if ($y > $st.y + $y_shift) && ($y < $st.y + BOX_SIZE * sconf.scale + $y_shift) {
+				ret($st)
+			}
+		}
+	}
+	ret(MOUSE_NO_STAIR)
+}
+
+fn add_stair($x, $y, $size, $align) {
+	$ni = get_size(stairs)
+	resize(stairs, $ni+1)
+	stairs[$ni] = new()
+	stairs[$ni].x = $x
+	stairs[$ni].y = $y 
+	stairs[$ni].size = $size
+	stairs[$ni].align = $align
+}
+
+fn add_line($x1, $y1, $x2, $y2) {
+	$ni = get_size(lines)
+	resize(lines, $ni+1)
+	lines[$ni] = new()
+	lines[$ni].x1 = $x1
+	lines[$ni].y1 = $y1
+	lines[$ni].x2 = $x2
+	lines[$ni].y2 = $y2
+}
+
+fn drawAllStairs() {
+	//clean(screen)
+
+	for($i = 0; $i < get_size(stairs); $i + 1) {
+		draw_stair_cont(stairs[$i])
+	}
+
+	/*for(j = 0; j < get_size(lines); j + 1) {
+		$line = lines[j]
+		line($line.x1, $line.y1, $line.x2, $line.y2, scolor[COLOR_DRAW])
+	}*/
+}
