@@ -8,7 +8,7 @@ public class Stair implements Drawing {
     private int size;
     private Align align;
     
-    public enum Align {RT, RB, LT, LB}
+    public enum Align {LT, RB, LB, RT}
     
     public float getX() {return x;}
     public float getY() {return y;}

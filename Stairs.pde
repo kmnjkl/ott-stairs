@@ -1,4 +1,4 @@
-
+import controlP5.*;
 Draw dr;
 
 void setup() {
@@ -7,7 +7,7 @@ void setup() {
   background(Draw.BACKGROUND);
   
   dr = new Draw(this);
-  dr.addStair(100, 100, 10, Stair.Align.LT);
+  //dr.addStair(100, 100, 10, Stair.Align.LT);
 }
 
 void draw() {
@@ -32,4 +32,8 @@ void mouseDragged() {
   if (holdStair != null) {
     holdStair.move(mouseX - pmouseX, mouseY - pmouseY);
   }
+}
+
+void controlEvent(ControlEvent event) {
+  dr.controlEvent(event);
 }
