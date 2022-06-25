@@ -7,7 +7,9 @@ public class Draw {
   public static final int BACKGROUND = 255,
           ID_BTN_NS_MINUS = 1,
           ID_BTN_NS_PLUS = 2,
-          ID_BTN_NEW_STAIR = 3;
+          ID_BTN_NEW_STAIR = 3,
+          ID_BTN_CLEAR_STAIRS = 4,
+          ID_BTN_CLEAR_DRAWINGS = 5;
   
   private PApplet app;
   private ArrayList<Stair> stairs = new ArrayList<Stair>();
@@ -26,22 +28,37 @@ public class Draw {
     final int SM_BUTTON_WIDTH = 30,
             SM_BUTTON_HEIGHT = 25;
     // Draw interface
+    int cx = 1;
     nsMinus = cp5.addButton("-")
             .setId(ID_BTN_NS_MINUS)
-            .setPosition(1, 1)
+            .setPosition(cx, 1)
             .setSize(SM_BUTTON_WIDTH, SM_BUTTON_HEIGHT);
+    cx += SM_BUTTON_WIDTH * Conf.iScale() + 3;
     nsTextField = cp5.addTextfield("nsSize")
             .setText("10")
-            .setPosition(1 + (SM_BUTTON_WIDTH) * Conf.iScale() + 3, 1)
+            .setPosition(cx, 1)
             .setSize(SM_BUTTON_WIDTH, SM_BUTTON_HEIGHT);
+    cx += SM_BUTTON_WIDTH * Conf.iScale() + 3;
     nsPlus = cp5.addButton("+")
             .setId(ID_BTN_NS_PLUS)
-            .setPosition(1 + (SM_BUTTON_WIDTH + SM_BUTTON_WIDTH) * Conf.iScale() + 3 + 3, 1)
+            .setPosition(cx, 1)
             .setSize(SM_BUTTON_WIDTH, SM_BUTTON_HEIGHT);
+    cx += SM_BUTTON_WIDTH * Conf.iScale() + 5;
     newStair = cp5.addButton("ADD")
             .setId(ID_BTN_NEW_STAIR)
-            .setPosition(1 + (SM_BUTTON_WIDTH + SM_BUTTON_WIDTH + SM_BUTTON_WIDTH) * Conf.iScale() + 3 + 3 + 5, 1)
-            .setSize(2 * SM_BUTTON_WIDTH, SM_BUTTON_HEIGHT);
+            .setPosition(cx, 1)
+            .setSize((int)(2 * SM_BUTTON_WIDTH * Conf.iScale()), SM_BUTTON_HEIGHT);
+    cx += 2 * SM_BUTTON_WIDTH * Conf.iScale() + 30;
+    cp5.addButton("CL. STAIRS")
+            .setId(ID_BTN_CLEAR_STAIRS)
+            .setPosition(cx, 1)
+            .setSize((int)(2 * SM_BUTTON_WIDTH * Conf.iScale()), SM_BUTTON_HEIGHT);
+    cx += 2 * SM_BUTTON_WIDTH * Conf.iScale() + 5;
+    cp5.addButton("CL. DRAW-s")
+            .setId(ID_BTN_CLEAR_DRAWINGS)
+            .setPosition(cx, 1)
+            .setSize((int)(2 * SM_BUTTON_WIDTH * Conf.iScale()), SM_BUTTON_HEIGHT);
+    // RIGHT SIDE
     alignRB = cp5.addRadioButton("alignRB")
             .setPosition(app.width - SM_BUTTON_WIDTH * Conf.iScale() - 1 -50, 1)
             .setSize(SM_BUTTON_WIDTH, SM_BUTTON_HEIGHT)
@@ -70,6 +87,12 @@ public class Draw {
           break;
         case (ID_BTN_NS_PLUS):
           nsTextField.setText(String.valueOf(Integer.parseInt(nsTextField.getText().trim()) + 1));
+          break;
+        case (ID_BTN_CLEAR_STAIRS):
+          stairs.clear();
+          break;
+        case (ID_BTN_CLEAR_DRAWINGS):
+          lines.clear();
           break;
         case (ID_BTN_NEW_STAIR):
           String nsSizeS = nsTextField.getText().trim();
@@ -104,6 +127,7 @@ public class Draw {
 
   public void addLine(float px, float py, float nx, float ny) {
     lines.add(new Line(app, px, py, nx, ny));
+    app.println(lines.size());
   }
   
   public ObjUnder objUnder(float qx, float qy) {
