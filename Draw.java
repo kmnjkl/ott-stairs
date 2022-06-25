@@ -11,6 +11,7 @@ public class Draw {
   
   private PApplet app;
   private ArrayList<Stair> stairs = new ArrayList<Stair>();
+  private ArrayList<Line> lines = new ArrayList<Line>();
   // ControlP5
   ControlP5 cp5;
   private Textfield nsTextField;
@@ -95,10 +96,14 @@ public class Draw {
     }
   }
   
-  public Stair addStair(float x, float y, int size, Stair.Align align) {
+  public void addStair(float x, float y, int size, Stair.Align align) {
     Stair st = new Stair(app, x, y, size, align);
     stairs.add(st);
-    return st;
+//    return st;
+  }
+
+  public void addLine(float px, float py, float nx, float ny) {
+    lines.add(new Line(app, px, py, nx, ny));
   }
   
   public ObjUnder objUnder(float qx, float qy) {
@@ -115,9 +120,14 @@ public class Draw {
     // Clear screen
     app.background(BACKGROUND);
 
-    // Draw stairs
+    // Draw lines
     for (int i = 0; i < stairs.size(); i++) {
       stairs.get(i).draw();
+    }
+
+    // Draw stairs
+    for (int i = 0; i < lines.size(); i++) {
+      lines.get(i).draw();
     }
   }
 

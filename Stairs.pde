@@ -15,9 +15,10 @@ void draw() {
 }
 
 Drawing holdStair;
+ObjUnder obj = new ObjUnder();
 
 void mousePressed() {
-  ObjUnder obj = dr.objUnder(mouseX, mouseY);
+  obj = dr.objUnder(mouseX, mouseY);
   
   if (obj.getType() == ObjUnder.Type.STAIR) {
     holdStair = obj.getObj();
@@ -25,12 +26,14 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-  holdStair = null;
+  obj = new ObjUnder();
 }
 
 void mouseDragged() {
-  if (holdStair != null) {
+  if (obj.getType() == ObjUnder.Type.STAIR) {
     holdStair.move(mouseX - pmouseX, mouseY - pmouseY);
+  } else if (obj.getType() == ObjUnder.Type.NONE) {
+    dr.addLine(pmouseX, pmouseY, mouseX, mouseY);
   }
 }
 
